@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="threadBuildHelper" title="[kiror] Thread Build Helper" version_string="0.0" version_id="0" url="https://github.com/adlerosn/" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="kiror_option_template_tbh_mainBuilder"><![CDATA[<xen:controlunit label="{$preparedOption.title}" hint="{$preparedOption.hint}">
+	<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+	<xen:html>
+		<ul>
+			<li>
+<xen:require css="public:thread_prefixes.css" />
+<xen:require js="js/threadBuildHelper/edit.js" />
+<input id="threadHelperEditorData" type="text" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$optionValue}" />
+<script>threadHelperEditor_threadPrefixes={xen:helper json,$threadPrefixes};</script>
+<div id="threadHelperEditor"></div>
+			</li>
+		</ul>
+		
+		<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+		{xen:raw $editLink}
+	</xen:html>
+</xen:controlunit>]]></template>
+  </admin_templates>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners/>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="kirorThreadBuildHelperGrp" display_order="1" debug_only="0"/>
+    <option option_id="kirorThreadBuildHelper" edit_format="callback" data_type="string" can_backup="1" validation_class="threadBuildHelper_adminOptionThreadHelperEditor" validation_method="validate">
+      <default_value>[]</default_value>
+      <edit_format_params>threadBuildHelper_adminOptionThreadHelperEditor::renderView</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kirorThreadBuildHelperGrp" display_order="1"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_kirorThreadBuildHelperGrp" version_id="0" version_string="0.0"><![CDATA[[kiror] Thread Build Helper]]></phrase>
+    <phrase title="option_group_kirorThreadBuildHelperGrp_description" version_id="0" version_string="0.0"><![CDATA[Options for building helpers for threads]]></phrase>
+    <phrase title="option_kirorThreadBuildHelper" version_id="0" version_string="0.0"><![CDATA[Thread Helper Editor]]></phrase>
+    <phrase title="option_kirorThreadBuildHelper_explain" version_id="0" version_string="0.0"><![CDATA[]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="editor_threadBuildHelper" version_id="0" version_string="0.0"><![CDATA[<dl class="ctrlUnit" style="padding-top:0px;margin-top:0px; width: 100%; padding-left: 5%; padding-right: 5%;">
+<dt style="padding-top:0px;margin-top:0px;"></dt>
+<dd style="padding-top:0px;margin-top:0px; width: 90%;">
+<xen:require css="thread_prefixes.css" />
+<xen:require js="js/threadBuildHelper/use.js" />
+<script>
+threadBuildHelper_tutorials = JSON.parse({xen:helper json, $xenOptions.kirorThreadBuildHelper}['_response']);
+</script>
+<div id="threadBuildHelper_container">
+<span id="tbh_js_disabled_notice">Thread Build Helper requires JavaScript enabled to work.</span>
+<div id="tbh_steps" style="dispay: none;">javax.swing.JPanel</div>
+<div id="tbh_control_btn" style="dispay: none;"><a class="button">javax.swing.JLabel</a></div>
+</div></dd></dl>]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="thread_create" modification_key="addthreadbuildhelperbeloweditor" description="Add thread build helper below editor" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<!-- slot: after_editor -->]]></find>
+      <replace><![CDATA[<xen:include template="editor_threadBuildHelper" />
+	$0]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
